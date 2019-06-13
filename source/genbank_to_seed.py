@@ -195,5 +195,7 @@ def convert_contigs(argv):
 		except:
 			print ('Cannot remove',org_dir)
 #################################################
-
-convert_contigs(sys.argv)
+if __name__== "__main__":
+	convert_contigs(sys.argv)
+	
+	

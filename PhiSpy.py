@@ -44,14 +44,19 @@ import re
 import subprocess
 import argparse
 
+## get file path
+toolDir = os.path.dirname(os.path.realpath(__file__)) + '/'
+sys.path.append(toolDir)
+
+## load modules
+from source import makeTest
+from source import classification
+from source import evaluation
+from source import unknownFunction
+
 #################################################
 def call_phiSpy(organismPath, output_dir, trainingFlag, INSTALLATION_DIR, evaluateOnly, threshold_for_FN,
 				phageWindowSize, quietMode, keep):
-	sys.path.append(INSTALLATION_DIR + 'source/')
-	import makeTest
-	import classification
-	import evaluation
-	import unknownFunction
 
 	sys.stderr.write("Running PhiSpy on " + organismPath + "\n")
 	if (not evaluateOnly):
@@ -86,7 +91,7 @@ def call_phiSpy(organismPath, output_dir, trainingFlag, INSTALLATION_DIR, evalua
 def print_list(INSTALLATION_DIR):
 	printstr = ''
 	try:
-		f = open(INSTALLATION_DIR + "data/trainingGenome_list.txt", "r")
+		f = open(INSTALLATION_DIR + "/data/trainingGenome_list.txt", "r")
 	except:
 		print ('cannot find list')
 	for line in f:
@@ -99,17 +104,9 @@ def print_list(INSTALLATION_DIR):
 
 #################################################
 def start_propgram(argv):
-	try:
-		subprocess.call("type Rscript", shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE) == 0
-	except OSError:
-		sys.exit("The R programming language is not installed")
-
-	INSTALLATION_DIR = argv[0]
-	if '/' in argv[0]:
-		INSTALLATION_DIR = INSTALLATION_DIR[0:len(INSTALLATION_DIR) - INSTALLATION_DIR[::-1].find('/')]
-	else:
-		INSTALLATION_DIR = './'
-
+	## check Rscript is installed
+	INSTALLATION_DIR = toolDir
+	
 	args_parser = argparse.ArgumentParser(
 		description="phiSpy is a program for identifying prophages from among microbial genome sequences",
 		epilog="(c) 2008-2018 Sajia Akhter, Katelyn McNair, Rob Edwards, San Diego State University, San Diego, CA")
@@ -205,9 +202,12 @@ def start_propgram(argv):
 			break
 		print ()
 
+
 	call_phiSpy(organismPath, output_dir, trainingFlag, INSTALLATION_DIR, args_parser.evaluate, args_parser.number,
 				args_parser.window_size, args_parser.quiet, args_parser.keep)
 
-##################################################################################################
+#################################################
 ## main
-start_propgram(sys.argv)
+#################################################
+if __name__== "__main__":
+	start_propgram(sys.argv)

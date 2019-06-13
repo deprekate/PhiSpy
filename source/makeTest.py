@@ -63,7 +63,7 @@ class ShannonScore:
 			self._key_to_index[line] = len(self._values) - 1
 
 	def reset(self):
-		self.total = 0
+		self.total = 0		
 		self._values = array.array('i', b'\x00' * self._values.itemsize * len(self._values))
 
 	def addValue(self, seq):

@@ -45,7 +45,9 @@ Create a prophage.tbl file from a phispy directory that does not contain one.
 import os
 import sys
 import argparse
-from evaluation import  make_prophage_tbl
+toolDir = os.path.dirname(os.path.realpath(__file__))
+sys.path.append(toolDir)
+from evaluation import make_prophage_tbl
 
 #################################################
 def make_new_prophage_tbl(phispydir):

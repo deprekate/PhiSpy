@@ -48,7 +48,7 @@ from numpy import array
 #################################################
 def find_training_genome(trainingFlag,INSTALLATION_DIR):
 	try:
-		f = open(INSTALLATION_DIR+"data/trainingGenome_list.txt","r")
+		f = open(INSTALLATION_DIR + "/data/trainingGenome_list.txt","r")
 	except:
 		print ('cannot open '+INSTALLATION_DIR+'data/trainingGenome_list.txt')
 		return ''
