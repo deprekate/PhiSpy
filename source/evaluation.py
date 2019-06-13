@@ -43,6 +43,7 @@ import re
 import math
 import sys
 
+#################################################
 def read_contig(organism):
     try:
         f_dna = open(organism + '/contigs', 'r')
@@ -76,6 +77,7 @@ def read_contig(organism):
     f_dna.close()
     return dna
 
+#################################################
 def find_repeat(fn, st, INSTALLATION_DIR, ppno, extraDNA, output_dir):
     if len(fn) == 0:
         print("Len sequence is 0 so ignoring\n")
@@ -161,6 +163,7 @@ def find_repeat(fn, st, INSTALLATION_DIR, ppno, extraDNA, output_dir):
 
     return rep
 
+#################################################
 def check_intg(prophage_sta,prophage_sto,rep,integ,con):
     for m in integ:
         if integ[m]['contig'] != con:
@@ -175,6 +178,7 @@ def check_intg(prophage_sta,prophage_sto,rep,integ,con):
             return 1
     return 0 
 
+#################################################
 def find_smallest(a,b):
     mm = 1000000
     for i in a:
@@ -183,6 +187,7 @@ def find_smallest(a,b):
                 mm = math.fabs(i - j)
     return mm
 
+#################################################
 def find_rna(prophage_start, prophage_stop, repeat_list, organism_path, cont, integrs):
     try:
         infile = open(organism_path + '/Features/rna/tbl', 'r')
@@ -236,6 +241,7 @@ def find_rna(prophage_start, prophage_stop, repeat_list, organism_path, cont, in
         return '0_0'  # 'null'
     return str(my_start) + '_' + str(my_end)+'_'+ str(start_end)+'_'+ str(end_start)
 
+#################################################
 def check_pp(contig,start,stop,pp):
     if start > stop:
         (start, stop) = (stop, start)
@@ -246,7 +252,7 @@ def check_pp(contig,start,stop,pp):
                 return j
     return 0
 
-
+#################################################
 def check_phage_word_start(sjcontig, a, b, c):
     j = 0
     tot = 0
@@ -266,7 +272,7 @@ def check_phage_word_start(sjcontig, a, b, c):
     else:
         return b
 
-
+#################################################
 def check_phage_word_end(sjcontig, a, b, c):
     j = 0
     tot = 0
@@ -285,7 +291,8 @@ def check_phage_word_end(sjcontig, a, b, c):
         return b
     else:
         return a
-               
+        
+#################################################               
 def final_check_phage_word(sjcontig,a,b,c):
     j = 0
     tot = 0
@@ -305,6 +312,7 @@ def final_check_phage_word(sjcontig,a,b,c):
     else:
         return '0_0'
 
+#################################################
 def clarification_by_phage_word(sjcontig, bef_start, bef_stop, aft_start, aft_stop, genome):
     if aft_start == 0 and aft_stop == 0:
         return '0_0'
@@ -321,7 +329,7 @@ def clarification_by_phage_word(sjcontig, bef_start, bef_stop, aft_start, aft_st
 
     return se
 
-
+#################################################
 def fixing_start_end(output_dir, organism_path, INSTALLATION_DIR, phageWindowSize, non_prophage_gene_gaps=10):
     try:
         infile = open(output_dir+'initial_tbl.tsv', 'r')
@@ -538,8 +546,7 @@ def fixing_start_end(output_dir, organism_path, INSTALLATION_DIR, phageWindowSiz
     out.close()
 
 
-
-
+#################################################
 def make_prophage_tbl(inputf, outputf):
     try:
         f = open(inputf, 'r')
@@ -582,10 +589,8 @@ def make_prophage_tbl(inputf, outputf):
     f.close()
     fw.close()
 
-                    
 
 ################################################################################
-
 def call_start_end_fix(output_dir, organismPath, INSTALLATION_DIR, threshold_for_FN, phageWindowSize):
     # Make the prophage_tbl_temp.txt file.
     fixing_start_end(output_dir, organismPath, INSTALLATION_DIR, phageWindowSize)

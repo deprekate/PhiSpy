@@ -42,15 +42,9 @@ import os
 import sys
 import re
 import subprocess
+import argparse
 
-
-try:
-    import argparse
-except ImportError:
-    sys.path.append(os.path.dirname(os.path.realpath(__file__)) + '/argparse-1.2.1')
-    import argparse
-
-
+#################################################
 def call_phiSpy(organismPath, output_dir, trainingFlag, INSTALLATION_DIR, evaluateOnly, threshold_for_FN,
                 phageWindowSize, quietMode, keep):
     sys.path.append(INSTALLATION_DIR + 'source/')
@@ -88,7 +82,7 @@ def call_phiSpy(organismPath, output_dir, trainingFlag, INSTALLATION_DIR, evalua
     if (quietMode == 0):
         print 'Done!!!'
 
-
+#################################################
 def print_list(INSTALLATION_DIR):
     printstr = ''
     try:
@@ -103,7 +97,7 @@ def print_list(INSTALLATION_DIR):
     print printstr
     f.close()
 
-
+#################################################
 def start_propgram(argv):
     try:
         subprocess.call("type Rscript", shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE) == 0
@@ -214,5 +208,6 @@ def start_propgram(argv):
     call_phiSpy(organismPath, output_dir, trainingFlag, INSTALLATION_DIR, args_parser.evaluate, args_parser.number,
                 args_parser.window_size, args_parser.quiet, args_parser.keep)
 
-
+##################################################################################################
+## main
 start_propgram(sys.argv)

@@ -42,6 +42,7 @@ import re
 import string
 import os
 
+#################################################
 def unknown_func(x):
 
     x_lower = x.lower()
@@ -87,6 +88,7 @@ def unknown_func(x):
     else:
         return 0
 
+#################################################
 def add_unknown_function_initial_tbl(infile,outfile):
     try:
         f = open(infile,'r')
@@ -118,6 +120,7 @@ def add_unknown_function_initial_tbl(infile,outfile):
     fw.close()
     return 1
 
+#################################################
 def consider_unknown(output_dir):
     x = add_unknown_function_initial_tbl(output_dir+'initial_tbl.txt',output_dir+'initial_tbl_2.txt')
     if (x == 1):

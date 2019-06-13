@@ -45,6 +45,7 @@ import os
 from sklearn.cluster import KMeans
 from numpy import array
 
+#################################################
 def find_training_genome(trainingFlag,INSTALLATION_DIR):
     try:
         f = open(INSTALLATION_DIR+"data/trainingGenome_list.txt","r")
@@ -59,6 +60,7 @@ def find_training_genome(trainingFlag,INSTALLATION_DIR):
             return temp[1].strip()
     return ''
 
+#################################################
 def call_randomForest_generic(output_dir,trainingFlag,INSTALLATION_DIR):
     infile = output_dir + "testSet.txt"
     outfile = output_dir + "classify.tsv"
@@ -69,6 +71,7 @@ def call_randomForest_generic(output_dir,trainingFlag,INSTALLATION_DIR):
     cmd = "Rscript "+INSTALLATION_DIR+"source/randomForest.r "+INSTALLATION_DIR+" "+trainingFile+" "+infile+" "+outfile
     os.system(cmd)
 
+#################################################
 def my_sort(orf_list):
      n = len(orf_list)
      i = 1
@@ -107,13 +110,15 @@ def my_sort(orf_list):
           i = i+1
      return orf_list
 
+#################################################
 def find_mean(all_len):
      
      sum = 0.0
      for i in all_len:
           sum = sum + i
      return float(sum)/len(all_len)
-
+     
+#################################################
 def calc_pp(func,INSTALLATION_DIR):
     x = 0
     func = func.replace('-',' ')
@@ -157,6 +162,7 @@ def calc_pp(func,INSTALLATION_DIR):
            x = 0
     return x
 
+#################################################
 def calc_function_3files(organism):
     my_func = {}
     x = 0 #no need it for computation.. just a flag in "except"
@@ -192,6 +198,7 @@ def calc_function_3files(organism):
 
     return my_func
 
+#################################################
 def input_bactpp(organism, INSTALLATION_DIR):
     bact_file = organism+'/Features/peg/tbl'
     try:
@@ -257,6 +264,7 @@ def input_bactpp(organism, INSTALLATION_DIR):
             index = index+1
     return all
 
+#################################################
 def make_initial_tbl(organismPath, output_dir, window, INSTALLATION_DIR):
         try:
             infile = open(output_dir+'classify.tsv','r')
@@ -330,7 +338,6 @@ def make_initial_tbl(organismPath, output_dir, window, INSTALLATION_DIR):
         
 
 ##########################################################################
-
 def call_classification(organismPath, output_dir, trainingFlag, phageWindowSize, INSTALLATION_DIR):
     # Make classify.tsv file
     call_randomForest_generic(output_dir,trainingFlag,INSTALLATION_DIR)        

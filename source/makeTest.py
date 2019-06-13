@@ -45,7 +45,7 @@ import pprint
 import sys
 import array
 
-
+#################################################
 class ShannonScore:
 
     def __init__(self, INSTALLATION_DIR):
@@ -95,7 +95,7 @@ class ShannonScore:
         myslope = freq_found / H
         return myslope
 
-
+#################################################
 def read_contig(organismPath):
     try:
         f_dna = open(organismPath + '/contigs', 'r')
@@ -130,7 +130,7 @@ def read_contig(organismPath):
     f_dna.close()
     return dna
 
-
+#################################################
 def my_sort(orf_list):
     n = len(orf_list)
     i = 0
@@ -169,19 +169,20 @@ def my_sort(orf_list):
         i += 1
     return orf_list
 
-
+#################################################
 def complement(gene):
     complements = string.maketrans('acgtrymkbdhvACGTRYMKBDHV', 'tgcayrkmvhdbTGCAYRKMVHDB')
     rcseq = gene.translate(complements)[::-1]
     return rcseq
-
+    
+#################################################
 def find_all_median(x):
     all_len = []
     for i in x:
         all_len.append((abs(x[i]['start'] - x[i]['stop'])) + 1)
     return find_median(all_len)
 
-
+#################################################
 def find_median(all_len):
     n = len(all_len) / 2
     all_len.sort()
@@ -190,14 +191,14 @@ def find_median(all_len):
     else:
         return all_len[n]
 
-
+#################################################
 def find_avg_length(orf_list):
     x = []
     for i in orf_list:
         x.append(abs(orf_list[i]['start'] - orf_list[i]['stop']))
     return sum(x) / len(x)
 
-
+#################################################
 def find_atgc_skew(seq):
     seq = seq.upper()
     total_at = 0.0
@@ -237,7 +238,7 @@ def find_atgc_skew(seq):
         sys.exit("a total of zero")
     return float(counts[0]) / total_at, float(counts[3]) / total_at, float(counts[1]) / total_gc, float(counts[2]) / total_gc
 
-
+#################################################
 def find_avg_atgc_skew(orf_list, mycontig, dna):
     a_skew = []
     t_skew = []
@@ -273,7 +274,6 @@ def find_avg_atgc_skew(orf_list, mycontig, dna):
 
 
 ######################################################################################
-
 def make_set_test(organismPath, output_dir, window, INSTALLATION_DIR):
     my_shannon_scores = ShannonScore(INSTALLATION_DIR)
     all_orf_list = {}
@@ -415,8 +415,6 @@ def make_set_test(organismPath, output_dir, window, INSTALLATION_DIR):
 
 
 ##################### function call #################################
-
-
 def call_make_test_set(organismPath, output_dir, INSTALLATION_DIR):
     window = 40
 
