@@ -17,6 +17,9 @@ Katelyn McNair
 Edwards Bioinformatics Lab (http://edwards.sdsu.edu/labsite/)
 San Diego State University (http://www.sdsu.edu/)
 
+Recently, translation from python2 to python3 and implementation as a module was made by
+
+Jose F. Sanchez Herrero, Bioinformatics Unit IGTP, Hospital German Trias i Pujol (http://www.germanstrias.org/technology-services/genomica-bioinformatica/)
 
 
 # SYSTEM REQUIREMENTS
@@ -42,13 +45,6 @@ PhiSpy requires following programs to be installed in the system. NOTE: You can 
 3. `% make`
 4. For ease of use, add the location of PhiSpy.py to your $PATH.
 
-# ALTERNATE INSTALLATION
-
-1. Get [singularity](http://singularity.lbl.gov/all-releases)
-2. Build phispy.img using this [repository](https://github.com/hurwitzlab/singularity-phispy)
-3. Run the singularity image `% singularity exec phispy.img PhiSpy.py`
-4. NOTE: if you haven't used singularity before you'll need to know about [binding directories](http://singularity.lbl.gov/quickstart#working-with-files) so that PhiSpy can find your input and output.
-
 TO TEST THE PROGRAM
 
 1. `% cd PhiSpy`
@@ -56,7 +52,6 @@ TO TEST THE PROGRAM
 
 Test_Organism/160490.1/ is a seed annotation directory for genome 'Streptococcus pyogenes M1 GAS'. 
 You will find the output files of this genome at output_directory.
-
 
 # TO RUN PHISPY
 
@@ -159,3 +154,31 @@ You should get a prophage table that has this information:
 pp_1 | Contig_2300_10.15 | 1630 | 10400
 pp_2 | Contig_2294_10.15 | 175 | 11290
 pp_3 | Contig_2077_10.15 | 318 | 12625
+
+
+# LICENSE
+
+This is a modified version of the original code. No further developments were made, only conversion from python2 to python3 and small bug fixes were done. Please refer to the original version for further details and cited them accordingly.
+
+The MIT License (MIT)
+
+Copyright (c) 2016 Rob Edwards
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
