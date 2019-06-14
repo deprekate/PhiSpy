@@ -68,7 +68,7 @@ def call_randomForest_generic(output_dir,trainingFlag,INSTALLATION_DIR):
 	trainingFile = find_training_genome(trainingFlag,INSTALLATION_DIR)
 	if len(trainingFile)<2:
 		return
-	cmd = "Rscript "+INSTALLATION_DIR+"source/randomForest.r "+INSTALLATION_DIR+" "+trainingFile+" "+infile+" "+outfile
+	cmd = "Rscript "+INSTALLATION_DIR+"PhiSpy_tools/randomForest.r "+INSTALLATION_DIR+" "+trainingFile+" "+infile+" "+outfile
 	os.system(cmd)
 
 #################################################

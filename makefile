@@ -1,4 +1,4 @@
 CC = g++
 FLAGS = -O3
 all:
-	$(CC) $(FLAGS) source/repeatFinder.cpp -o source/repeatFinder
+	$(CC) $(FLAGS) PhiSpy_tools/repeatFinder.cpp -o PhiSpy_tools/repeatFinder

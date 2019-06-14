@@ -204,7 +204,7 @@ def find_atgc_skew(seq):
 	total_at = 0.0
 	total_gc = 0.0
 
-	#		  A	G	 C   T
+	#		  A		G	 C   T
 	scores = {
 		'A': [1.0, 0.0, 0.0, 0.0],
 		'T': [0.0, 0.0, 0.0, 1.0],

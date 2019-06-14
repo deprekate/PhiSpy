@@ -42,6 +42,7 @@ import os
 import re
 import math
 import sys
+import csv
 
 #################################################
 def read_contig(organism):
@@ -94,7 +95,7 @@ def find_repeat(fn, st, INSTALLATION_DIR, ppno, extraDNA, output_dir):
 
 	# call repeat finder
 	try:
-		cmd1 = INSTALLATION_DIR + "source/repeatFinder -f " + output_dir + tempOutFile
+		cmd1 = INSTALLATION_DIR + "PhiSpy_tools/repeatFinder -f " + output_dir + tempOutFile
 		os.system(cmd1)
 	except:
 		print('repeat finder did not work for ', len(fn))
@@ -475,10 +476,7 @@ def fixing_start_end(output_dir, organism_path, INSTALLATION_DIR, phageWindowSiz
 				tempe1 = max(t[0], t[2])
 				temps2 = min(t[1], t[3])
 				tempe2 = max(t[1], t[3])
-				pp[i]['att'] = t[0] + '\t' + t[2] + '\t' + t[3] + '\t' + t[1] + '\t' + dna[pp[i]['contig']][
-																					   int(temps1) - 1:int(
-																						   tempe1)] + '\t' + dna[pp[i][
-					'contig']][int(temps2) - 1:int(tempe2)] + 'Repeat exactly at the end'
+				pp[i]['att'] = [t[0], t[2], t[3], t[1], dna[pp[i]['contig']][int(temps1) - 1:int(tempe1)], dna[pp[i]['contig']][int(temps2) - 1:int(tempe2)], 'Repeat exactly at the end']
 			else:
 				# this approach will just append the longest repeat
 				longestrep = 0
@@ -502,46 +500,54 @@ def fixing_start_end(output_dir, organism_path, INSTALLATION_DIR, phageWindowSiz
 					# added by Rob, but this is not right
 					#pp[i]['start'] = min([bestrep['s1'], bestrep['e1'], bestrep['s2'], bestrep['e2']])
 					#pp[i]['stop']  = max([bestrep['s1'], bestrep['e1'], bestrep['s2'], bestrep['e2']])
-					pp[i]['att'] = "\t".join(map(str,
-												 [bestrep['s1'], bestrep['e1'], bestrep['s2'], bestrep['e2'], attLseq,
-												  attRseq,
-												  "Longest Repeat flanking phage and within " + str(extraDNA) + " bp"]))
+					pp[i]['att'] = [bestrep['s1'], bestrep['e1'], bestrep['s2'], bestrep['e2'], attLseq, attRseq, "Longest Repeat flanking phage and within " + str(extraDNA) + " bp"]
 
 	# fix start end for all pp
 	try:
 		infile = open(output_dir + 'initial_tbl.tsv', 'r')
-		outfile = open(output_dir + 'prophage_tbl.tsv', 'w')
+		outfile = open(output_dir + 'prophage_tbl.csv', 'w', newline='')
 	except:
 		sys.exit('ERROR: Cannot open ' + output_dir + 'initial_tbl.tsv')
 
+	## set handle
+	csvwriter = csv.writer(outfile, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+
 	for line in infile:
 		temp = re.split('\t', line.strip())
+		
 		if temp[1] == 'function':
-			outfile.write(line)
-			continue
-		me = check_pp(temp[2], int(temp[3]), int(temp[4]), pp)
-		if me == 0:
-			outfile.write(line.strip() + '\t0' + '\n')
+			csvwriter.writerow(temp)
 		else:
-			outfile.write(line.strip() + '\t' + str(me) + '\n')
+			me = check_pp(temp[2], int(temp[3]), int(temp[4]), pp)
+			if me == 0:
+				temp.append(int(0))
+			else:
+				temp.append(int(me))
 
+			csvwriter.writerow(temp)
 	infile.close()
 	outfile.close()
 	os.remove(output_dir + 'initial_tbl.tsv')
 
 	# print the prophage coordinates:
-	out = open(output_dir + 'prophage_coordinates.tsv', 'w')
+	out = open(output_dir + 'prophage_coordinates.csv', 'w', newline='')
+	out_csvwriter = csv.writer(out, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+	out_csvwriter.writerow(["#prophage_ID", "Contig","Start","End","attL_Start","attL_End","attR_Start","attR_End","attL_Seq","attR_Seq","Longest_Repeat_flanking_phage"])
 	for i in pp:
 		if 'att' not in pp[i]:
 			pp[i]['att']=""
-		out.write("\t".join(map(str, ["pp" + str(i), "", pp[i]['contig'], pp[i]['start'], pp[i]['stop'], pp[i]['att']])) + "\n")
+		
+		out_csvwriter.writerow(["pp" + str(i), str(pp[i]['contig']), str(pp[i]['start']), str(pp[i]['stop']), str(pp[i]['att'])])
+		#out.write(",".join(map(str, ["pp" + str(i), pp[i]['contig'], pp[i]['start'], pp[i]['stop'], pp[i]['att']])) + "\n")
 	out.close()
 
 	# write the prophage location table
-
-	out = open(output_dir + "prophage.tbl", "w")
+	out_table = open(output_dir + "prophage.tbl", "w", newline='')
+	out_table_writer = csv.writer(out_table, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+	out_table_writer.writerow(["#prophage_ID", "Contig","Start","End"])
 	for i in pp:
-		out.write("pp_" + str(i) + "\t" + str(pp[i]['contig']) + "_" + str(pp[i]['start']) + "_" + str(pp[i]['stop']) + "\n")
+		out_table_writer.writerow(["pp_" + str(i), pp[i]['contig'], pp[i]['start'], pp[i]['stop']])
+		#out.write("pp_" + str(i) + "," + str(pp[i]['contig']) + "," + str(pp[i]['start']) + "," + str(pp[i]['stop']) + "\n")
 	out.close()
 
 

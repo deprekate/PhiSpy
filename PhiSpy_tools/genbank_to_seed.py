@@ -44,9 +44,13 @@ import re
 from Bio import SeqIO
 
 #################################################
+def usage():
+	print ('USAGE: python genbank_to_seed.py GenBank_file.gb organism_directory \n')
+
+#################################################
 def convert_contigs(argv):
 	if len(argv) < 3:
-		print ('USAGE: python genbank_to_seed.py GenBank_file.gb organism_directory \n')
+		usage()
 		return
 	if '.' in argv[1]:
 		gbk_file = argv[1] 

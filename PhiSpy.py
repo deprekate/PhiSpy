@@ -46,13 +46,14 @@ import argparse
 
 ## get file path
 toolDir = os.path.dirname(os.path.realpath(__file__)) + '/'
+INSTALLATION_DIR = toolDir
 sys.path.append(toolDir)
 
 ## load modules
-from source import makeTest
-from source import classification
-from source import evaluation
-from source import unknownFunction
+from PhiSpy_tools import makeTest
+from PhiSpy_tools import classification
+from PhiSpy_tools import evaluation
+from PhiSpy_tools import unknownFunction
 
 #################################################
 def call_phiSpy(organismPath, output_dir, trainingFlag, INSTALLATION_DIR, evaluateOnly, threshold_for_FN,
@@ -88,7 +89,7 @@ def call_phiSpy(organismPath, output_dir, trainingFlag, INSTALLATION_DIR, evalua
 		print ('Done!!!')
 
 #################################################
-def print_list(INSTALLATION_DIR):
+def print_list():
 	printstr = ''
 	try:
 		f = open(INSTALLATION_DIR + "/data/trainingGenome_list.txt", "r")
@@ -105,8 +106,6 @@ def print_list(INSTALLATION_DIR):
 #################################################
 def start_propgram(argv):
 	## check Rscript is installed
-	INSTALLATION_DIR = toolDir
-	
 	args_parser = argparse.ArgumentParser(
 		description="phiSpy is a program for identifying prophages from among microbial genome sequences",
 		epilog="(c) 2008-2018 Sajia Akhter, Katelyn McNair, Rob Edwards, San Diego State University, San Diego, CA")
@@ -132,7 +131,7 @@ def start_propgram(argv):
 	args_parser = args_parser.parse_args()
 
 	if (args_parser.list):
-		print_list(INSTALLATION_DIR)
+		print_list()
 		sys.exit(0)
 
 	if not args_parser.input_dir and not args_parser.output_dir:
@@ -190,7 +189,7 @@ def start_propgram(argv):
 
 	if (args_parser.choose):
 		while (1):
-			print_list(INSTALLATION_DIR)
+			print_list()
 			temp = raw_input(
 				"Please choose the number for a closely related organism we can use for training, or choose 0 if you don't know: ")
 			try:
