@@ -519,12 +519,9 @@ def fixing_start_end(output_dir, organism_path, INSTALLATION_DIR, phageWindowSiz
 			csvwriter.writerow(temp)
 		else:
 			me = check_pp(temp[2], int(temp[3]), int(temp[4]), pp)
-			if me == 0:
-				temp.append(int(0))
-			else:
-				temp.append(int(me))
-
+			temp.append(int(me))
 			csvwriter.writerow(temp)
+
 	infile.close()
 	outfile.close()
 	os.remove(output_dir + 'initial_tbl.tsv')
@@ -537,7 +534,9 @@ def fixing_start_end(output_dir, organism_path, INSTALLATION_DIR, phageWindowSiz
 		if 'att' not in pp[i]:
 			pp[i]['att']=""
 		
-		out_csvwriter.writerow(["pp" + str(i), str(pp[i]['contig']), str(pp[i]['start']), str(pp[i]['stop']), str(pp[i]['att'])])
+		list_write = ["pp" + str(i), str(pp[i]['contig']), str(pp[i]['start']), str(pp[i]['stop'])]
+		list_write.extend(pp[i]['att'])
+		out_csvwriter.writerow(list_write)
 		#out.write(",".join(map(str, ["pp" + str(i), pp[i]['contig'], pp[i]['start'], pp[i]['stop'], pp[i]['att']])) + "\n")
 	out.close()
 
