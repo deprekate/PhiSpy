@@ -526,28 +526,55 @@ def fixing_start_end(output_dir, organism_path, INSTALLATION_DIR, phageWindowSiz
 	outfile.close()
 	os.remove(output_dir + 'initial_tbl.tsv')
 
+	## generate results
+	
 	# print the prophage coordinates:
 	out = open(output_dir + 'prophage_coordinates.csv', 'w', newline='')
 	out_csvwriter = csv.writer(out, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
 	out_csvwriter.writerow(["#prophage_ID", "Contig","Start","End","attL_Start","attL_End","attR_Start","attR_End","attL_Seq","attR_Seq","Longest_Repeat_flanking_phage"])
-	for i in pp:
-		if 'att' not in pp[i]:
-			pp[i]['att']=""
-		
-		list_write = ["pp" + str(i), str(pp[i]['contig']), str(pp[i]['start']), str(pp[i]['stop'])]
-		list_write.extend(pp[i]['att'])
-		out_csvwriter.writerow(list_write)
-		#out.write(",".join(map(str, ["pp" + str(i), pp[i]['contig'], pp[i]['start'], pp[i]['stop'], pp[i]['att']])) + "\n")
-	out.close()
-
+	
 	# write the prophage location table
 	out_table = open(output_dir + "prophage.tbl", "w", newline='')
 	out_table_writer = csv.writer(out_table, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
 	out_table_writer.writerow(["#prophage_ID", "Contig","Start","End"])
+	
+	## GFF output
+	out_GFF = open(output_dir + "prophage.gff3", "w")
+	out_GFF.write("##gff-version 3")
+	out_GFF.write("\n")
+	
+	## loop through pp results
 	for i in pp:
-		out_table_writer.writerow(["pp_" + str(i), pp[i]['contig'], pp[i]['start'], pp[i]['stop']])
-		#out.write("pp_" + str(i) + "," + str(pp[i]['contig']) + "," + str(pp[i]['start']) + "," + str(pp[i]['stop']) + "\n")
+		## list
+		list_write = ["pp" + str(i), str(pp[i]['contig']), str(pp[i]['start']), str(pp[i]['stop'])]
+
+		## table
+		out_table_writer.writerow(list_write)
+
+		## GFF	
+		## strand is not knonw...
+		out_GFF.write(str(pp[i]['contig']) + '\tPhiSpy\tprophage_region\t' +  str(pp[i]['start']) + '\t' + str(pp[i]['stop']) + '\t.\t.' + ' \t.\tID=pp' + str(i))
+		out_GFF.write('\n')
+
+		## is there att sequence?
+		if 'att' not in pp[i]:
+			pp[i]['att']=""
+		else:
+			## attL 
+			out_GFF.write(str(pp[i]['contig']) + '\tPhiSpy\tattL\t' +  str(pp[i]['att'][0]) + '\t' + str(pp[i]['att'][1]) + '\t.\t.' + ' \t.\tID=pp' + str(i))
+			out_GFF.write('\n')
+
+			## attR 
+			out_GFF.write(str(pp[i]['contig']) + '\tPhiSpy\tattR\t' +  str(pp[i]['att'][2]) + '\t' + str(pp[i]['att'][3]) + '\t.\t.' + ' \t.\tID=pp' + str(i))
+			out_GFF.write('\n')
+		
+		## coordinates_csv
+		list_write.extend(pp[i]['att'])
+		out_csvwriter.writerow(list_write)
+	
 	out.close()
+	out_table.close()
+	out_GFF.close()
 
 
 #################################################
