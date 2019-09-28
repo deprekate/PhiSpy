@@ -152,14 +152,16 @@ void extend_repeats()
 	int i,j,key,keylen=2*(REPEAT_LEN-1);
 
 	key = 0;
-	for(i = 0;i < REPEAT_LEN; i++)
+	for(i = 0;i < REPEAT_LEN; i++){
 		key = (key<<2) + converter[dna[i]];
-	for(j=0;j<allrepeats[key].size();j++)
+	}
+	printf("key: %i\n", key);
+	for(j=0;j<allrepeats[key].size();j++){
 		if(allrepeats[key][j]<0)
 			find_maxlen_rev(0,allrepeats[key][j]);
 		else
 			find_maxlen(0,allrepeats[key][j]);
-
+	}
 	for(i =1;i<dna_len-REPEAT_LEN+1;i++){
 		key = ((key&((1<<keylen)-1))<< 2) + converter[dna[i+REPEAT_LEN-1]];
 		for(j=0;j<allrepeats[key].size();j++)
@@ -232,7 +234,7 @@ void print_output()
 
         strcpy (outputfile,inputfile);
         strcat (outputfile,".repeatfinder");
-        f = fopen(outputfile,"w");
+        //f = fopen(outputfile,"w");
 
 	j = rep.size();
 
@@ -241,10 +243,10 @@ void print_output()
 		if(rep[i].visited==0 && rep[i].len>= output_rep_len){
 		        
 		  ////print
-			fprintf(f,"%d\t%d\t",rep[i].fst,rep[i].fst+rep[i].len-1);
+			printf("%d\t%d\t",rep[i].fst,rep[i].fst+rep[i].len-1);
 			
 			if(rep[i].sec>-1){
-				fprintf(f,"%d\t%d\n",rep[i].sec,rep[i].sec+rep[i].seclen-1);	
+				printf("%d\t%d\n",rep[i].sec,rep[i].sec+rep[i].seclen-1);	
 				/*
 				for(k = rep[i].fst-1; k<rep[i].fst+rep[i].len-1;k++) fprintf(f,"%c",dna[k]);
 				fprintf(f,"\t");
@@ -254,7 +256,7 @@ void print_output()
 					fprintf(f,"\tsame direction\t");*/
 			}
 			else{
-				fprintf(f,"%d\t%d\n",rep[i].sec*(-1),(rep[i].sec+rep[i].seclen-1)*(-1));
+				printf("%d\t%d\n",rep[i].sec*(-1),(rep[i].sec+rep[i].seclen-1)*(-1));
 			        /* 
 				for(k = rep[i].fst-1; k<rep[i].fst+rep[i].len-1;k++) fprintf(f,"%c",dna[k]);
 				fprintf(f,"\t");
@@ -271,7 +273,7 @@ void print_output()
 			totalRep++;
 		}
 	//printf("total repeat (join <= %d nt) = %d\n",gap_len-1,totalRep);
-	fclose(f);
+	//fclose(f);
 }
 			
 int main(int argc, char **argv)
